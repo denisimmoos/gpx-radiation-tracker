@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 
 import serial
 import signal
@@ -30,9 +32,6 @@ gpx_wps = gpxpy.gpx.GPXWaypoint()
 gpx_track = gpxpy.gpx.GPXTrack()
 gpx_track.source = str(port) + " (" + str(baudrate) + ")"
 gpx.tracks.append(gpx_track)
-
-gpx_segment = []
-gpx_sc = 0
 
 # Create first segment in our GPX track:
 gpx_segment = gpxpy.gpx.GPXTrackSegment()
