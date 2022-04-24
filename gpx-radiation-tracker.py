@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import serial
 import signal
 import gpxpy
@@ -15,7 +14,7 @@ baudrate = 9600
 timeout = 0
 
 # wait in sec between mesurements
-wait = 5
+wait = 7
 
 # array to collect TXT information
 GPTXT = []
