@@ -78,6 +78,7 @@ def getCPM(ser):                                # get CPM from device
 
 # writeGPS
 def writeGPX(data, cpm):
+
     # Standard values from the Nuclear Radiation Safety Guide
     if cpm < 50:
         cpm_level = "Normal"
@@ -92,7 +93,7 @@ def writeGPX(data, cpm):
         cpm_level = "Very High"
 
     if cpm > 2000:
-        cpm_level = "Extemely High"
+        cpm_level = "Extremely High"
 
     # get device info
     if "$GPTXT" in data:
