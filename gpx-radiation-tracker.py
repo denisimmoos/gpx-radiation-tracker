@@ -9,12 +9,17 @@ import sys
 from time import sleep
 from datetime import datetime, timezone
 
-port = "/dev/ttyACM0"
-baudrate = 9600
-timeout = 0
+# seconds to wait between mesurements
+wait_sec = 5
 
-# wait in sec between mesurements
-wait = 7
+# gps
+gps_port = "/dev/ttyACM0"
+gps_baudrate = 9600
+gps_timeout = 0
+
+# geiger
+geiger_port = '/dev/ttyUSB0'
+geiger_baudrate = 115200
 
 # array to collect TXT information
 GPTXT = []
@@ -24,12 +29,9 @@ gpx = gpxpy.gpx.GPX()
 gpx.name = 'Geigerlog'
 gpx.description = ''
 
-# init waypoints
-gpx_wps = gpxpy.gpx.GPXWaypoint()
-
 # Create first track in our GPX:
 gpx_track = gpxpy.gpx.GPXTrack()
-gpx_track.source = str(port) + " (" + str(baudrate) + ")"
+gpx_track.source = str(geiger_port) + " (" + str(gps_baudrate) + ")"
 gpx.tracks.append(gpx_track)
 
 # Create first segment in our GPX track:
@@ -56,8 +58,42 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 
+def getCPM(ser):                                # get CPM from device
+    cpm = 0
+    counter = 0
+    maxcount = 2
+
+    while cpm == 0:
+        ser.write(b'<GETCPM>>')
+        srec = ser.read(2)
+        rec = chr(srec[0]) + chr(srec[1])
+        cpm = int(ord(rec[0]) << 8 | ord(rec[1]))
+        counter += 1
+        # this will prevent it to run amok
+        if counter > maxcount:
+            return 0
+
+    return cpm
+
+
 # parseGPS
-def parseGPS(data):
+def parseGPX(data, cpm):
+    # Standard values from the Nuclear Radiation Safety Guide
+    if cpm < 50:
+        cpm_level = "Normal"
+
+    if cpm > 50:
+        cpm_level = "Medium"
+
+    if cpm > 100:
+        cpm_level = "High"
+
+    if cpm > 1000:
+        cpm_level = "Very High"
+
+    if cpm > 2000:
+        cpm_level = "Extemely High"
+
     # get device info
     if "$GPTXT" in data:
         if "unknown" not in data:
@@ -93,6 +129,8 @@ def parseGPS(data):
         # check if the data is valid
         if s[6] == "0":
             eprint("no satellite data available")
+            # print Radiation cpm_level
+            eprint("radiation_level (" + cpm_level + "): " + str(cpm))
             return
 
         # get latitude
@@ -115,27 +153,31 @@ def parseGPS(data):
 
         hdop = s[8]
 
-        desc = "time_utc      : " + str(time_utc) + "\n"
-        desc += "lat (decimal): " + lat + " " + lat_direction + "\n"
-        desc += "lon (decimal): " + lon + " " + lon_direction + "\n"
-        desc += "ele       (m): " + ele + "\n"
-        desc += "sat       (c): " + sat + "\n"
-        desc += "hdop         : " + hdop + "\n"
-        desc += "url          : " + lat + "," + lon + "\n"
+        desc = "time_utc        : " + str(time_utc) + "\n"
+        desc += "lat   (decimal): " + lat + " " + lat_direction + "\n"
+        desc += "lon   (decimal): " + lon + " " + lon_direction + "\n"
+        desc += "ele         (m): " + ele + "\n"
+        desc += "sat         (c): " + sat + "\n"
+        desc += "hdop           : " + hdop + "\n"
+        desc += "url            : " + lat + "," + lon + "\n"
+        desc += "cpm            : " + str(cpm) + "\n"
+        desc += "radiation_level: " + str(cpm_level) + "\n"
 
         eprint(desc)
 
         # adding waypoints
+        gpx_wps = gpxpy.gpx.GPXWaypoint()
         gpx_wps.elevation = ele
         gpx_wps.latitude = lat
         gpx_wps.longitude = lon
         #gpx_wps.symbol = "https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-radioactive-industry-flaticons-flat-flat-icons.png"
-        gpx_wps.name = "Waypoint: " + lat + " N," + (lon) + " E"
+        gpx_wps.name = cpm_level + ": " + str(cpm)
         gpx_wps.description = desc
         gpx_wps.time = time_utc
 
         # append waypoint
         gpx.waypoints.append(gpx_wps)
+
 
         # append segmentpoint
         gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(
@@ -146,7 +188,8 @@ def parseGPS(data):
             horizontal_dilution=hdop,
             ))
 
-        sleep(wait)
+        sleep(wait_sec)
+
 
 def decode(coord):
     # DDDMM.MMMMM -> DD deg MM.MMMMM min
@@ -161,12 +204,19 @@ def decode(coord):
 
     return dec
 
-# initialize serial connection
-ser = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
+
+# initialize serial connections
+gps_ser = serial.Serial(port=gps_port,
+                        baudrate=gps_baudrate,
+                        timeout=gps_timeout)
+
+geiger_ser = serial.Serial(port=geiger_port,
+                           baudrate=geiger_baudrate)
 
 # make it pretty
 eprint("\n")
 
 while True:
-    data = ser.readline().decode("utf-8")
-    parseGPS(data)
+    gps_data = gps_ser.readline().decode("utf-8")
+    geiger_cpm = getCPM(geiger_ser)
+    parseGPX(gps_data, geiger_cpm)
