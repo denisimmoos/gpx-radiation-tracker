@@ -76,8 +76,8 @@ def getCPM(ser):                                # get CPM from device
     return cpm
 
 
-# parseGPS
-def parseGPX(data, cpm):
+# writeGPS
+def writeGPX(data, cpm):
     # Standard values from the Nuclear Radiation Safety Guide
     if cpm < 50:
         cpm_level = "Normal"
@@ -219,4 +219,4 @@ eprint("\n")
 while True:
     gps_data = gps_ser.readline().decode("utf-8")
     geiger_cpm = getCPM(geiger_ser)
-    parseGPX(gps_data, geiger_cpm)
+    writeGPX(gps_data, geiger_cpm)
