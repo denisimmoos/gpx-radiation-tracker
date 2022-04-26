@@ -10,10 +10,6 @@ from time import sleep
 from datetime import datetime, timezone
 import math
 
-
-# seconds to wait between mesurements
-wait_sec = 5
-
 # distance between waypoints in m
 # use float
 waypoint_distance = 5.0
@@ -36,6 +32,7 @@ gps_ser = serial.Serial(port=gps_port,
 
 geiger_ser = serial.Serial(port=geiger_port,
                            baudrate=geiger_baudrate)
+
 # some counters
 gpgga_initial = 0
 gpgga_first = []
@@ -100,7 +97,6 @@ def getCPM(ser):                                # get CPM from device
             return 0
 
     return cpm
-
 
 def gpsGPGGA(data):
 
