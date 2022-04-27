@@ -307,10 +307,11 @@ while True:
 
                 print(influx_status)
 
-        # do not remove me
-        continue
+        if not gpgga_initial:
+            # do not remove me
+            continue
 
-     else:
+    else:
 
          if not gpgga:
 
