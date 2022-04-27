@@ -143,6 +143,7 @@ def gpsGPGGA(data):
             lon_direction = s[5]
             # get altitude
             ele = s[9]
+            gih = s[11]
             # get satelites
             sat = s[7].lstrip('0')
             # horizonlal dilution
@@ -154,6 +155,7 @@ def gpsGPGGA(data):
                lon,
                lon_direction,
                ele,
+               gih,
                sat,
                hdop)
 
@@ -251,6 +253,8 @@ def writeGPXWaypoint(gpgga, cpm, cpm_lev, desc):
     gpx_wps.latitude = gpgga[1]
     gpx_wps.longitude = gpgga[3]
     gpx_wps.elevation = gpgga[5]
+    gpx_wps.geoid_height = gpgga[7]
+    gpx_wps.horizontal_dilution = gpgga[8]
     # gpx_wps.symbol = ""
     gpx_wps.name = str(cpm_lev) + ": " + str(cpm)
     gpx_wps.description = desc
@@ -268,7 +272,7 @@ def writeGPXSegment(gpgga, cpm, cpm_lev):
             latitude=gpgga[1],
             longitude=gpgga[3],
             elevation=gpgga[5],
-            horizontal_dilution=gpgga[7],
+            horizontal_dilution=gpgga[8],
             name=str(cpm_lev) + ": " + str(cpm)
             ))
 
@@ -362,7 +366,7 @@ while True:
             + "\n" + "gps_lon     : " + str(gpgga_first[3])
             + " " + str(gpgga_first[4])
             + "\n" + "gps_ele(m)  : " + str(gpgga_first[5])
-            + "\n" + "gps_sat     : " + str(gpgga_first[6])
+            + "\n" + "gps_sat     : " + str(gpgga_first[7])
             + "\n" + "gpgga_second : "
             + "\n" + "gps_tutc    : " + str(gpgga_second[0])
             + "\n" + "gps_lat     : " + str(gpgga_second[1])
@@ -370,7 +374,7 @@ while True:
             + "\n" + "gps_lon     : " + str(gpgga_second[3])
             + " " + str(gpgga_first[4])
             + "\n" + "gps_ele(m)  : " + str(gpgga_second[5])
-            + "\n" + "gps_sat     : " + str(gpgga_second[6])
+            + "\n" + "gps_sat     : " + str(gpgga_second[7])
             + "\n"
         )
         # write second segment
@@ -396,7 +400,7 @@ while True:
             + "\n" + "gps_lon     : " + str(gpgga_first[3])
             + " " + str(gpgga_first[4])
             + "\n" + "gps_ele(m)  : " + str(gpgga_first[5])
-            + "\n" + "gps_sat     : " + str(gpgga_first[6])
+            + "\n" + "gps_sat     : " + str(gpgga_first[7])
             + "\n" + "gpgga_second : "
             + "\n" + "gps_tutc    : " + str(gpgga_second[0])
             + "\n" + "gps_lat     : " + str(gpgga_second[1])
@@ -404,7 +408,7 @@ while True:
             + "\n" + "gps_lon     : " + str(gpgga_second[3])
             + " " + str(gpgga_first[4])
             + "\n" + "gps_ele(m)  : " + str(gpgga_second[5])
-            + "\n" + "gps_sat     : " + str(gpgga_second[6])
+            + "\n" + "gps_sat     : " + str(gpgga_second[7])
             + "\n"
         )
 
