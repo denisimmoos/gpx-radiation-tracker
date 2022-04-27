@@ -250,7 +250,7 @@ def writeInfluxDB(
             "measurement": "GPSCPM",
             "tags": {
                 "GeigerUnit": "CPM"
-                },
+            },
             "fields": {
                 "time": time,
                 "latitude": float(latitude),
@@ -259,8 +259,8 @@ def writeInfluxDB(
                 "satellites": int(satellites),
                 "cpm": int(cpm),
                 "cpm_level": cpm_level,
-        },
-    ]
+        }
+        ]
 
     return(influxdb.write_points(json_body))
 
