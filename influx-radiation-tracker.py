@@ -4,17 +4,21 @@
 import serial
 import signal
 import sys
-from time import sleep
+from os import system
+from time import sleep, time
 from datetime import datetime, timezone
 import math
-
+import random
 from influxdb import InfluxDBClient
 
+# get now
+now = time()
+
 influxdb_name = "gpscpm"
-influxdb_retention = "2m"
+influxdb_retention = "18w"
 
 influxdb = InfluxDBClient(host='localhost', port=8086)
-# influxdb.drop_database(influxdb_name)
+influxdb.drop_database(influxdb_name)
 influxdb.create_database(influxdb_name)
 influxdb.switch_database(influxdb_name)
 influxdb.create_retention_policy(
@@ -24,6 +28,15 @@ influxdb.create_retention_policy(
     database=influxdb_name,
     default=False)
 
+
+# wait
+wait = 1
+
+# simulate high CPM, simulate a nuclear catastrope
+simulation = 0
+
+# make a datapoint visible every x secoonds
+difference = 10
 
 # gps settings
 gps_port = "/dev/ttyACM0"
@@ -49,12 +62,19 @@ gpgga_initial = []
 cpm_array = []
 gpgga = []
 
+# distances
+dist_initial = 0.0
+dist_last = -1.0
+
+
 # SIG handles
 def handler(signum, frame):
     eprint("Ctrl-c was pressed. Do you really want to exit? y/n ")
+    sleep(2)
     res = input()
     if res == 'y':
         exit(1)
+
 
 # initialize signal handler
 signal.signal(signal.SIGINT, handler)
@@ -62,12 +82,14 @@ signal.signal(signal.SIGINT, handler)
 
 # print to stderr
 def eprint(*args, **kwargs):
+    system('clear')
     print(*args, file=sys.stderr, **kwargs)
 
 
 # avg of a list
 def listavg(lst):
     return sum(lst) / len(lst)
+
 
 def getCPM(ser):
 
@@ -87,6 +109,7 @@ def getCPM(ser):
 
     return cpm
 
+
 def gpsGPGGA(data):
 
     """parse the $GPGGA string from GPS device"""
@@ -94,7 +117,6 @@ def gpsGPGGA(data):
     # get GPS info
     if "$GPGGA" in data:
         s = data.split(",")
-
         if s[6] == "0":
             # no gps data
             return 0
@@ -236,14 +258,16 @@ def getCPMLev(cpm):
 
 
 def writeInfluxDB(
-    time,
-    longitude,
-    latitude,
-    elevation,
-    satellites,
-    cpm,
-    cpm_level
-):
+        time,
+        latitude,
+        longitude,
+        elevation,
+        satellites,
+        cpm,
+        cpm_level,
+        dist_initial,
+        dist_last,
+        display):
 
     json_body = [
         {
@@ -259,6 +283,9 @@ def writeInfluxDB(
                 "satellites": int(satellites),
                 "cpm": int(cpm),
                 "cpm_level": cpm_level,
+                "dist_initial": float(dist_initial),
+                "dist_last": float(dist_last),
+                "display": int(display),
             }
         }
     ]
@@ -269,11 +296,11 @@ def writeInfluxDB(
 # Wile we run and jump around in the field
 while True:
 
-    # to avoid amok runs
-    sleep(0.1)
-
     # get cpm
     cpm = getCPM(geiger_ser)
+
+    if simulation:
+        cpm = random.randint(20, 5000)
 
     # append to cpm_array
     cpm_array.append(cpm)
@@ -281,66 +308,134 @@ while True:
     # get first waypoint
     if not gpgga_initial:
 
-        eprint("\n"
-                + "No GPS data [initial] ..."
-                + "\n"
-                + "\n" + "cpm_avg: " + str(round(listavg(cpm_array)))
-                + "\n" + "cpm_min: " + str(min(cpm_array))
-                + "\n" + "cpm_max: " + str(max(cpm_array))
-                + "\n" + "cpm_lev: " + str(getCPMLev(max(cpm_array)))
-        )
+        eprint(
+            "\n"
+            + "No GPS data found ..."
+            + "\n"
+            + "\n" + "cpm_avg: " + str(round(listavg(cpm_array)))
+            + "\n" + "cpm_min: " + str(min(cpm_array))
+            + "\n" + "cpm_max: " + str(max(cpm_array))
+            + "\n" + "cpm_lst: " + str(cpm)
+            + "\n" + "cpm_lev: " + str(getCPMLev(max(cpm_array))))
 
-        gps_data_initial = gps_ser.readline().decode("utf-8")
-        gpgga_initial = gpsGPGGA(gps_data_initial)
+        gps_data = gps_ser.readline().decode("utf-8")
+        gpgga_initial = gpsGPGGA(gps_data)
 
         if gpgga_initial:
 
-                influx_status = writeInfluxDB(
-                    gpgga_initial[0],
-                    gpgga_initial[1],
-                    gpgga_initial[3],
-                    gpgga_initial[5],
-                    gpgga_initial[7],
-                    int(max(cpm_array)),
-                    str(getCPMLev(max(cpm_array)))
-                )
+            influx_status = writeInfluxDB(
+                gpgga_initial[0].timestamp(),
+                gpgga_initial[1],
+                gpgga_initial[3],
+                gpgga_initial[5],
+                gpgga_initial[7],
+                int(max(cpm_array)),
+                str(getCPMLev(max(cpm_array)) + " (" + str(max(cpm_array)) +")"),
+                float(0.0),
+                float(0.0),
+                1)
 
-                print(influx_status)
-
-        if not gpgga_initial:
-            # do not remove me
-            continue
+            if not influx_status:
+                eprint("Could not write to influxdb ...")
+                eprint(influx_status)
 
     else:
 
-         if not gpgga:
-
-            eprint("\n"
-                + "No GPS data ..."
-                + "\n"
-                + "\n" + "cpm_avg: " + str(round(listavg(cpm_array)))
-                + "\n" + "cpm_min: " + str(min(cpm_array))
-                + "\n" + "cpm_max: " + str(max(cpm_array))
-                + "\n" + "cpm_lev: " + str(getCPMLev(max(cpm_array)))
-            )
+        if not gpgga:
 
             gps_data = gps_ser.readline().decode("utf-8")
             gpgga = gpsGPGGA(gps_data)
 
             if gpgga:
 
+                later = time()
+                diff = int(later - now)
+
+                # trick to avoif too many datapoints in grafana table
+                if diff > difference:
+                    now = time()
+                    display = 1
+                else:
+                    display = 0
+
+                # save gpgga_last
+                gpgga_last = gpgga[:]
+
                 influx_status = writeInfluxDB(
-                    gpgga[0],
+                    gpgga[0].timestamp(),
                     gpgga[1],
                     gpgga[3],
                     gpgga[5],
                     gpgga[7],
                     int(max(cpm_array)),
-                    str(getCPMLev(max(cpm_array)))
+                    str(getCPMLev(max(cpm_array)) + " (" + str(max(cpm_array)) +")"),
+                    float(round(dist_initial, 1)),
+                    float(round(dist_last, 1)),
+                    display)
+
+                if not influx_status:
+                    eprint("Could not write to influxdb ...")
+                    print(influx_status)
+
+            else:
+
+                eprint(
+                    "\n"
+                    + "No GPS data found ..."
+                    + "\n"
+                    + "\n" + "cpm_avg: " + str(round(listavg(cpm_array)))
+                    + "\n" + "cpm_min: " + str(min(cpm_array))
+                    + "\n" + "cpm_max: " + str(max(cpm_array))
+                    + "\n" + "cpm_lst: " + str(cpm)
+                    + "\n" + "cpm_lev: " + str(getCPMLev(max(cpm_array))))
+
+            if gpgga_initial and gpgga:
+
+                # distance to initial mesurement point
+                dist_initial = distance(
+                                    [
+                                        float(gpgga_initial[1]),
+                                        float(gpgga_initial[3])],
+                                    [
+                                        float(gpgga[1]),
+                                        float(gpgga[3])])
+
+                # there are no minus distances
+                # therefore it must be the first last_distance
+                if dist_last < 0.0:
+                    dist_last = float(0.0)
+                else:
+                    # distance to last mesurement point
+                    dist_last = distance(
+                                    [
+                                        float(gpgga[1]),
+                                        float(gpgga[3])],
+                                    [
+                                        float(gpgga_last[1]),
+                                        float(gpgga_last[3])])
+
+                eprint(
+                    "\n"
+                    + "GPS data found [sat: " + str(gpgga[7]) + "] ..."
+                    + "\n"
+                    + "\n" + "cpm_avg: " + str(round(listavg(cpm_array)))
+                    + "\n" + "cpm_min: " + str(min(cpm_array))
+                    + "\n" + "cpm_max: " + str(max(cpm_array))
+                    + "\n" + "cpm_lst: " + str(cpm)
+                    + "\n" + "cpm_lev: " + str(getCPMLev(max(cpm_array)))
+                    + "\n" + "dist_initial: " + str(round(dist_initial, 1))
+                    + "\n" + "dist_last: " + str(round(dist_last, 1))
                 )
 
-                print(influx_status)
-
                 # rinse and repete
-                gpgga = []
                 cpm_array = []
+                gpgga = []
+
+                # for some odd reason the connection sometimes gets lost
+                gps_ser = serial.Serial(
+                    port=gps_port,
+                    baudrate=gps_baudrate,
+                    timeout=gps_timeout)
+
+    # avoid amok
+    sleep(wait)
