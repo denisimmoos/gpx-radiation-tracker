@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1" creator="gpx.py -- https://github.com/tkrajina/gpxpy">
+  <metadata>
+    <name>Geigerlog</name>
+    <desc>2022-04-26 15:10:07.763713+00:00</desc>
+  </metadata>
+  <wpt lat="47.55510666666667" lon="7.7917505">
+    <ele>264.5</ele>
+    <time>2022-04-26T15:10:08.772328Z</time>
+    <geoidheight>7</geoidheight>
+    <name>Normal: 26</name>
+    <desc>initial: 2022-04-26 15:10:08.772328+00:00</desc>
+    <hdop>1.15</hdop>
+  </wpt>
+  <trk>
+    <name>Geigerlog</name>
+    <desc>Geiger counter device: /dev/ttyUSB0 (115200)</desc>
+    <src>/dev/ttyACM0 (9600)</src>
+    <trkseg>
+      <trkpt lat="47.55510666666667" lon="7.7917505">
+        <ele>264.5</ele>
+        <time>2022-04-26T15:10:08.772328Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.5551075" lon="7.791750833333333">
+        <ele>264.4</ele>
+        <time>2022-04-26T15:10:13.301148Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.55510533333333" lon="7.7917505">
+        <ele>264.1</ele>
+        <time>2022-04-26T15:10:15.716858Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.55510733333333" lon="7.791750666666666">
+        <ele>264.0</ele>
+        <time>2022-04-26T15:10:18.133811Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.555108" lon="7.791749666666666">
+        <ele>264.0</ele>
+        <time>2022-04-26T15:10:20.551624Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.55510483333333" lon="7.791748666666667">
+        <ele>263.7</ele>
+        <time>2022-04-26T15:10:22.968732Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.55510616666666" lon="7.7917491666666665">
+        <ele>263.6</ele>
+        <time>2022-04-26T15:10:25.385365Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.555101" lon="7.791748166666666">
+        <ele>263.1</ele>
+        <time>2022-04-26T15:10:27.802199Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.55510183333333" lon="7.791747666666667">
+        <ele>262.9</ele>
+        <time>2022-04-26T15:10:30.217045Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.55510133333333" lon="7.791747">
+        <ele>262.8</ele>
+        <time>2022-04-26T15:10:32.633209Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+      <trkpt lat="47.555100499999995" lon="7.791746166666667">
+        <ele>262.7</ele>
+        <time>2022-04-26T15:10:35.049484Z</time>
+        <name>Normal: 26</name>
+        <hdop>1.15</hdop>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
