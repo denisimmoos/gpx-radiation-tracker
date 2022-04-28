@@ -3,7 +3,6 @@ This is a little script which reads CPR from a geiger counter and gps data from 
 
 # Usage: gpx-radiation-tracker
 
-´´´
+```
 ./gpx-radiation-tracker > default.gpx
-´´´
-
+```
