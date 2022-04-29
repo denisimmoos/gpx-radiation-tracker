@@ -1,53 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB_(GPSCPM)",
-      "label": "InfluxDB (gpscpm)",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "geomap",
-      "name": "Geomap",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.5.1"
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -73,14 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "description": "",
       "fieldConfig": {
@@ -95,6 +46,24 @@
               "viz": false
             }
           },
+          "decimals": 8,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "nominatim",
+              "url": "https://nominatim.openstreetmap.org/ui/reverse.html?lat=${__data.fields.lat}&lon=${__data.fields.lon}&format=json"
+            },
+            {
+              "targetBlank": true,
+              "title": "openweather (historic)",
+              "url": "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${__data.fields.lon}&lon=${__data.fields.lat}&dt=${__data.fields.time_index.numeric}&appid=7f9821162d97e5e0c1f80f5755465aae"
+            },
+            {
+              "targetBlank": true,
+              "title": "openweather (now)",
+              "url": "https://api.openweathermap.org/data/2.5/onecall?lat=${__data.fields.lat}﻿&lon=${__data.fields.lon}&dt=${__data.fields.time_index.numeric}&appid=7f9821162d97e5e0c1f80f5755465aae"
+            }
+          ],
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -203,7 +172,7 @@
           "alias": "",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -264,7 +233,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "description": "",
       "fieldConfig": {
@@ -317,7 +286,7 @@
           "alias": "satellites",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -367,7 +336,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "fieldConfig": {
         "defaults": {
@@ -431,7 +400,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -475,7 +444,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "fieldConfig": {
         "defaults": {
@@ -555,7 +524,7 @@
           "alias": "elevation",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -605,7 +574,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "description": "These values are to be taken with a grain of salt.\nThe GMC-500 is pre configured with the factor 0.00833333333",
       "fieldConfig": {
@@ -701,7 +670,7 @@
           "alias": "μSv",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -759,7 +728,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "fieldConfig": {
         "defaults": {
@@ -854,7 +823,7 @@
           "alias": "cpm",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -902,7 +871,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "5s",
+  "refresh": "",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
@@ -917,6 +886,6 @@
   "timezone": "",
   "title": "Geiger Dashboard",
   "uid": "4hRFFUw7z",
-  "version": 46,
+  "version": 48,
   "weekStart": ""
 }
