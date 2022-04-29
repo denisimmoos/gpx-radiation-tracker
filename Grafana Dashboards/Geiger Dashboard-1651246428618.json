@@ -1,53 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB_(GPSCPM)",
-      "label": "InfluxDB (gpscpm)",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "geomap",
-      "name": "Geomap",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.5.1"
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -73,14 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "description": "",
       "fieldConfig": {
@@ -221,7 +172,7 @@
           "alias": "",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -282,7 +233,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "description": "",
       "fieldConfig": {
@@ -335,7 +286,7 @@
           "alias": "satellites",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -385,7 +336,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "fieldConfig": {
         "defaults": {
@@ -449,7 +400,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -493,7 +444,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "fieldConfig": {
         "defaults": {
@@ -573,7 +524,7 @@
           "alias": "elevation",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -623,9 +574,9 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
-      "description": "These values are to be taken with a grain of salt.\nThe GMC-500 is pre configured with the factor 0.00833333333",
+      "description": "These values are to be taken with a grain of salt.\nThe GMC-500 is pre configured with the factor  0.00650",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -674,19 +625,19 @@
               },
               {
                 "color": "light-blue",
-                "value": 0.42
+                "value": 0.33
               },
               {
                 "color": "light-yellow",
-                "value": 0.83
+                "value": 0.65
               },
               {
                 "color": "light-purple",
-                "value": 8.33
+                "value": 6.5
               },
               {
                 "color": "light-red",
-                "value": 16.67
+                "value": 13
               }
             ]
           },
@@ -719,7 +670,7 @@
           "alias": "μSv",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -738,7 +689,7 @@
           "measurement": "GPSCPM",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"cpm\") *(0.5/60) FROM \"GPSCPM\" WHERE (\"GeigerUnit\" = 'CPM') AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT last(\"cpm\") * 0.00650  FROM \"GPSCPM\" WHERE (\"GeigerUnit\" = 'CPM') AND $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -777,7 +728,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+        "uid": "2X2J5Uwnk"
       },
       "fieldConfig": {
         "defaults": {
@@ -872,7 +823,7 @@
           "alias": "cpm",
           "datasource": {
             "type": "influxdb",
-            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+            "uid": "2X2J5Uwnk"
           },
           "groupBy": [
             {
@@ -920,7 +871,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 36,
   "style": "dark",
   "tags": [],
@@ -928,13 +879,13 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Geiger Dashboard",
   "uid": "4hRFFUw7z",
-  "version": 48,
+  "version": 49,
   "weekStart": ""
 }
