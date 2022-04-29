@@ -16,9 +16,12 @@ now = time()
 
 influxdb_name = "gpscpm"
 influxdb_retention = "18w"
+influxdb_drop = 0
 
 influxdb = InfluxDBClient(host='localhost', port=8086)
-influxdb.drop_database(influxdb_name)
+if influxdb_drop:
+    influxdb.drop_database(influxdb_name)
+
 influxdb.create_database(influxdb_name)
 influxdb.switch_database(influxdb_name)
 influxdb.create_retention_policy(
@@ -330,7 +333,8 @@ while True:
                 gpgga_initial[5],
                 gpgga_initial[7],
                 int(max(cpm_array)),
-                str(getCPMLev(max(cpm_array)) + " (" + str(max(cpm_array)) +")"),
+                str(getCPMLev(max(cpm_array))
+                    + " (" + str(max(cpm_array)) + ")"),
                 float(0.0),
                 float(0.0),
                 1)
@@ -368,7 +372,8 @@ while True:
                     gpgga[5],
                     gpgga[7],
                     int(max(cpm_array)),
-                    str(getCPMLev(max(cpm_array)) + " (" + str(max(cpm_array)) +")"),
+                    str(getCPMLev(max(cpm_array))
+                        + " (" + str(max(cpm_array)) + ")"),
                     float(round(dist_initial, 1)),
                     float(round(dist_last, 1)),
                     display)
