@@ -37,6 +37,12 @@
     },
     {
       "type": "panel",
+      "id": "pr0ps-trackmap-panel",
+      "name": "TrackMap",
+      "version": "2.1.2"
+    },
+    {
+      "type": "panel",
       "id": "stat",
       "name": "Stat",
       "version": ""
@@ -918,6 +924,40 @@
       ],
       "title": "CPM",
       "type": "timeseries"
+    },
+    {
+      "autoZoom": true,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GPSCPM)}"
+      },
+      "defaultLayer": "OpenStreetMap",
+      "gridPos": {
+        "h": 28,
+        "w": 17,
+        "x": 0,
+        "y": 24
+      },
+      "id": 13,
+      "lineColor": "#CA95E5",
+      "maxDataPoints": 500,
+      "pointColor": "royalblue",
+      "scrollWheelZoom": false,
+      "showLayerChanger": true,
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_(GPSCPM)}"
+          },
+          "query": "SELECT median(\"latitude\"), median(\"longitude\") FROM \"GPSCPM\"  WHERE $timeFilter GROUP BY time($interval)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "TrackMap",
+      "type": "pr0ps-trackmap-panel"
     }
   ],
   "refresh": "5s",
@@ -928,13 +968,13 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Geiger Dashboard",
   "uid": "4hRFFUw7z",
-  "version": 49,
+  "version": 51,
   "weekStart": ""
 }
