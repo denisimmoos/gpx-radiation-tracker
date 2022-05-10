@@ -1,0 +1,9 @@
+[Unit]
+After=network.target auditd.service
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/influx-radiation-tracker.py 2>&1 >> /home/pi/influx-radiation-tracker.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

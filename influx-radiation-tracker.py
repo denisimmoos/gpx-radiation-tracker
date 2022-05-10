@@ -39,7 +39,7 @@ wait = 1
 simulation = 0
 
 # make a datapoint visible every x secoonds
-difference = 10
+difference = 5
 
 # gps settings
 gps_port = "/dev/ttyACM0"
@@ -72,7 +72,7 @@ dist_last = -1.0
 
 # SIG handles
 def handler(signum, frame):
-    eprint("Ctrl-c was pressed. Do you really want to exit? y/n ")
+    print("Ctrl-c was pressed. Do you really want to exit? y/n ")
     sleep(2)
     res = input()
     if res == 'y':
@@ -311,7 +311,7 @@ while True:
     # get first waypoint
     if not gpgga_initial:
 
-        eprint(
+        print(
             "\n"
             + "No GPS data found ..."
             + "\n"
@@ -340,8 +340,8 @@ while True:
                 1)
 
             if not influx_status:
-                eprint("Could not write to influxdb ...")
-                eprint(influx_status)
+                print("Could not write to influxdb ...")
+                print(influx_status)
 
     else:
 
@@ -379,12 +379,12 @@ while True:
                     display)
 
                 if not influx_status:
-                    eprint("Could not write to influxdb ...")
+                    print("Could not write to influxdb ...")
                     print(influx_status)
 
             else:
 
-                eprint(
+                print(
                     "\n"
                     + "No GPS data found ..."
                     + "\n"
@@ -419,7 +419,7 @@ while True:
                                         float(gpgga_last[1]),
                                         float(gpgga_last[3])])
 
-                eprint(
+                print(
                     "\n"
                     + "GPS data found [sat: " + str(gpgga[7]) + "] ..."
                     + "\n"
