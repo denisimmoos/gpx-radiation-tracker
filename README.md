@@ -13,6 +13,6 @@ The runtime information is written to STDERR.
 # Usage: influx-radiation-tracker
 
 ```
-./influx-radiation-tracker > default.gpx
+./influx-radiation-tracker 
 ```
 For this you need to setup gafana and add a dashboard from **./Grafana Dashboards**
