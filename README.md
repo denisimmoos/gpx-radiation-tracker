@@ -20,8 +20,8 @@ For this you need to setup gafana and add a dashboard from **./Grafana Dashboard
 
 # Screenshots
 
-![Screenshot_0](./Screenshots/Screenshot_0.jpg?raw=true "Simulation of a nuclear meltdown")
-![Screenshot_1](./Screenshots/Screenshot_1.jpg?raw=true "Default view updated every 5s")
-![Screenshot_2](./Screenshots/Screenshot_2.jpg?raw=true "Track view")
+![Screenshot_0](Screenshots/Screenshot_0.jpg?raw=true "Simulation of a nuclear meltdown")
+![Screenshot_1](Screenshots/Screenshot_1.jpg?raw=true "Default view updated every 5s")
+![Screenshot_2](Screenshots/Screenshot_2.jpg?raw=true "Track view")
 
 
