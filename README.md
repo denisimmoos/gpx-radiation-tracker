@@ -2,7 +2,7 @@
 
 This are two little script which read CPR from a GMC-500 geiger counter and gps data from a gps *(VK-162 G-Mouse Remote Mount USB GPS)* device to create gpx tracks or influx time series.
 
-Currently the whole setup is runnind on a battery powered rasberry-zero which is running inside a backpack. 
+Currently the whole setup is running on a battery powered rasberry-zero which is running inside a backpack. 
 
 - GMC-500: https://www.gqelectronicsllc.com/comersus/store/comersus_viewItem.asp?idProduct=5631
 
