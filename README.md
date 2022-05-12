@@ -27,4 +27,5 @@ For this you need to setup gafana and add a dashboard from **./Grafana Dashboard
 ![Screenshot_1](Screenshots/Screenshot_1.png?raw=true "Default view updated every 5s")
 ![Screenshot_2](Screenshots/Screenshot_2.png?raw=true "Track view")
 ![Screenshot_3](Screenshots/Screenshot_3.png?raw=true "Linked with weather data")
+![Screenshot_4](Screenshots/Screenshot_4.jpg?raw=true "Hardware setup")
 
