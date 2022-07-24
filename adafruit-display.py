@@ -95,7 +95,7 @@ while True:
       draw.text((x, top + 16), "I1: " + IP1, font=font, fill=255)
       draw.text((x, top + 25), "M1: " + MAC1, font=font, fill=255)
     else:
-      if MAC0 == IP0: 
+      if MAC0 == IP0:
         draw.text((x, top + 8), "M1: " + MAC1, font=font, fill=255)
       else:
         draw.text((x, top + 16), "M1: " + MAC1, font=font, fill=255)
@@ -166,3 +166,4 @@ while True:
     disp.show()
     time.sleep(wait)
 
+# 
