@@ -20,7 +20,6 @@ The runtime information is written to STDERR.
 ```
 For this you need to setup gafana and add a dashboard from **./Grafana Dashboards**
 
-
 # Screenshots
 
 ![Screenshot_0](Screenshots/Screenshot_0.png?raw=true "Simulation of a nuclear meltdown")
